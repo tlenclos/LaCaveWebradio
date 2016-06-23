@@ -11,6 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
+import Player from './components/Player';
 
 class LaCave extends Component {
   render() {
@@ -25,6 +26,7 @@ class LaCave extends Component {
         <Text style={styles.instructions}>
           Shake or press menu button for dev menu
         </Text>
+        <Player />
       </View>
     );
   }
