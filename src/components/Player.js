@@ -14,21 +14,33 @@ const PLAYING = 'PLAYING';
 const PAUSED = 'PAUSED';
 const STOPPED = 'STOPPED';
 const ERROR = 'ERROR';
+const METADATA_UPDATED = 'METADATA_UPDATED';
 const BUFFERING = 'BUFFERING';
+const START_PREPARING = 'START_PREPARING'; // Android only
+const BUFFERING_START = 'BUFFERING_START'; // Android only
 
 export default class Player extends Component {
     constructor(props) {
         super(props);
         this._onPress = this._onPress.bind(this);
-        this.state = {status: STOPPED};
+        this.state = {
+            status: STOPPED,
+            song: ''
+        };
     }
 
     componentDidMount() {
-        // Get the initial message from the store
-        // Actions.updateMessage();
         this.subscription = DeviceEventEmitter.addListener(
-            'AudioBridgeEvent', (evt) => this.setState(evt)
+            'AudioBridgeEvent', (evt) => {
+                // We just want meta update for song name
+                if (evt.status === METADATA_UPDATED && evt.key === 'StreamTitle') {
+                    this.setState({song: evt.value});
+                } else if (evt.status != METADATA_UPDATED) {
+                    this.setState(evt);
+                }
+            }
         );
+
         AudioPlayer.getStatus((error, status) => {
             (error) ? console.log(error) : this.setState(status)
         });
@@ -70,6 +82,8 @@ export default class Player extends Component {
                 icon = <Icon name="play-circle" size={30} color="#FFF" />;
                 break;
             case BUFFERING:
+            case BUFFERING_START:
+            case START_PREPARING:
                 icon = <ActivityIndicator
                     animating={true}
                     style={{height: 80}}
@@ -82,7 +96,7 @@ export default class Player extends Component {
             <TouchableOpacity style={styles.container} onPress={this._onPress}>
                 {icon}
                 <Text style={styles.songName}>
-                    Song name
+                    {this.state.song}
                 </Text>
             </TouchableOpacity>
         );
