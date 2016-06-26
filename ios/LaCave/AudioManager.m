@@ -5,7 +5,7 @@
 #import "AudioManager.h"
 
 #define LPN_AUDIO_STREAM_URL @"http://lacavewebradio.chickenkiller.com:8000/stream.mp3"
-#define LPN_AUDIO_BUFFER_SEC 20
+#define LPN_AUDIO_BUFFER_SEC 20 // Can't use this with shoutcast buffer meta data
 
 @import AVFoundation;
 @import MediaPlayer;
@@ -18,7 +18,7 @@
 {
   self = [super init];
   if (self) {
-    self.audioPlayer = [[STKAudioPlayer alloc] initWithOptions:(STKAudioPlayerOptions){ .readBufferSize = LPN_AUDIO_BUFFER_SEC }];
+    self.audioPlayer = [[STKAudioPlayer alloc] initWithOptions:(STKAudioPlayerOptions){ .flushQueueOnSeek = YES }];
     [self.audioPlayer setDelegate:self];
     [self setSharedAudioSessionCategory];
     [self registerAudioInterruptionNotifications];
@@ -121,6 +121,15 @@ RCT_EXPORT_METHOD(getStatus: (RCTResponseSenderBlock) callback)
 
 - (void)audioPlayer:(STKAudioPlayer *)player unexpectedError:(STKAudioPlayerErrorCode)errorCode {
   NSLog(@"AudioPlayer unexpected Error with code %d", errorCode);
+}
+
+- (void)audioPlayer:(STKAudioPlayer *)audioPlayer didReadStreamMetadata:(NSDictionary *)dictionary {
+  NSLog(@"AudioPlayer SONG NAME  %@", dictionary[@"StreamTitle"]);
+  [self.bridge.eventDispatcher sendDeviceEventWithName:@"AudioBridgeEvent" body:@{
+     @"status": @"METADATA_UPDATED",
+     @"key": @"StreamTitle",
+     @"value": dictionary[@"StreamTitle"]
+  }];
 }
 
 - (void)audioPlayer:(STKAudioPlayer *)player stateChanged:(STKAudioPlayerState)state previousState:(STKAudioPlayerState)previousState

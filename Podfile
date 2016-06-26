@@ -8,11 +8,5 @@ target 'LaCave' do
   # use_frameworks!
 
   # Pods for LaCave
-  pod 'StreamingKit', '~> 0.1'
-
-  target 'LaCaveTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
+  pod 'StreamingKit', :git => 'https://github.com/tlenclos/StreamingKit.git', :branch => 'icecast'
 end

@@ -25,6 +25,7 @@
 		B59E714375CB4FFD9B62415B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 00CBDA7A7A9C450AAA8F52D0 /* FontAwesome.ttf */; };
 		C22267651D1C864A005A17F4 /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C22267641D1C864A005A17F4 /* AudioManager.m */; };
 		C22267671D1C87BB005A17F4 /* libStreamingKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C22267661D1C87BB005A17F4 /* libStreamingKit.a */; };
+		F03E26BDBAA2D024CF50A7B2 /* libPods-LaCave.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C531D4075B9B856DC930387A /* libPods-LaCave.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +136,7 @@
 		C22267631D1C8616005A17F4 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AudioManager.h; path = LaCave/AudioManager.h; sourceTree = "<group>"; };
 		C22267641D1C864A005A17F4 /* AudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AudioManager.m; path = LaCave/AudioManager.m; sourceTree = "<group>"; };
 		C22267661D1C87BB005A17F4 /* libStreamingKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libStreamingKit.a; path = "../../../../Library/Developer/Xcode/DerivedData/LaCave-drfbjpwfwwjteafpeogkerfurtty/Build/Products/Debug-iphonesimulator/StreamingKit/libStreamingKit.a"; sourceTree = "<group>"; };
+		C531D4075B9B856DC930387A /* libPods-LaCave.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LaCave.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB29913E81C24FDD901699C4 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -155,6 +157,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				6F7E18C4269749CD97D52FBA /* libRNVectorIcons.a in Frameworks */,
+				F03E26BDBAA2D024CF50A7B2 /* libPods-LaCave.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +323,7 @@
 			isa = PBXGroup;
 			children = (
 				C22267661D1C87BB005A17F4 /* libStreamingKit.a */,
+				C531D4075B9B856DC930387A /* libPods-LaCave.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
