@@ -1,6 +1,6 @@
 import React from 'react-native';
-import App from './src/components/App';
+import AppContainer from './src/components/AppContainer';
 
 let { AppRegistry } = React;
 
-AppRegistry.registerComponent('LaCave', () => App);
+AppRegistry.registerComponent('LaCave', () => AppContainer);

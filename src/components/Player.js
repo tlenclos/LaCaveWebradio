@@ -44,8 +44,6 @@ export default class Player extends Component {
         AudioPlayer.getStatus((error, status) => {
             (error) ? console.log(error) : this.setState(status)
         });
-
-        AudioPlayer.start();
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -109,11 +107,12 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#000',
         flexDirection: 'row',
-        height: 50
+        height: 50,
+        paddingLeft: 10,
+        paddingRight: 10
     },
     songName: {
         fontSize: 20,
