@@ -6,6 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
+    "he": "^1.1.0",
     "react": "15.1.0",
     "react-native": "0.28.0",
     "react-native-android-audio-streaming-aac": "tlenclos/react-native-android-audio-streaming-aac#improvements",

@@ -3,7 +3,8 @@ import {
     StyleSheet,
     Text,
     View,
-    WebView
+    WebView,
+    Platform
 } from 'react-native';
 
 export default class Post extends Component {
@@ -29,7 +30,7 @@ Post.propTypes = {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 65,
+        marginTop: Platform.OS === 'ios' ? 65 : 55,
         flex: 1,
         flexDirection: 'column',
     },

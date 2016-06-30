@@ -1,5 +1,5 @@
-import { amancaApiUrl } from '../config';
-import { FETCH_AMANCA_RESULTS } from './constants'
+import { amancaApiUrl, lacaveApiUrl } from '../config';
+import { FETCH_AMANCA, FETCH_LACAVE_LAST_SHOWS } from './constants'
 
 // Navigations
 export const NAVIGATE = 'NAVIGATE'
@@ -55,7 +55,25 @@ export function fetchAmanca(page) {
                 return data
             })
             .then((data) => {
-                dispatch({type: FETCH_AMANCA_RESULTS, data})
+                dispatch({type: FETCH_AMANCA, data})
+                return data;
+            })
+            .catch((err) => {
+                console.log('handle errors', err);
+            })
+    };
+};
+
+export function fetchLastShows(page) {
+    return function (dispatch) {
+        return fetch(lacaveApiUrl + '/posts?categories=3&_embed&page='+page)
+            .then((resp) => resp.json())
+            .then((data) => {
+                if (data.error) throw data.error.message || 'Unable to search'
+                return data
+            })
+            .then((data) => {
+                dispatch({type: FETCH_LACAVE_LAST_SHOWS, data})
                 return data;
             })
             .catch((err) => {

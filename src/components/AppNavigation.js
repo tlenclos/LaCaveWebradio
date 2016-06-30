@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import {
     StyleSheet,
-    NavigationExperimental
+    NavigationExperimental,
+    Text,
+    Platform,
+    Image
 } from 'react-native';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -13,6 +16,9 @@ const {
 import { navigatePush, navigatePop } from './../redux/actions';
 import MainView from './MainView';
 import Post from './Post';
+
+const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
 
 export default class AppNavigation extends Component {
     _renderScene({scene}) {
@@ -40,9 +46,20 @@ export default class AppNavigation extends Component {
             renderOverlay={props => (
 					<NavigationHeader
 						{...props}
+						style={styles.header}
 						renderTitleComponent={props => {
+						    const maxLength = 25;
 							const title = props.scene.route.title
-							return <NavigationHeader.Title>{title}</NavigationHeader.Title>
+							let modifiedTitle = title.slice(0, maxLength);
+							if (title.length > maxLength) {
+							    modifiedTitle += '...';
+							}
+
+                            if (navigationState.index > 0) {
+							    return <Text style={styles.title}>{modifiedTitle}</Text>
+                            } else {
+                                return <Image source={require('./../img/logo2.png')} style={styles.logo} />
+                            }
 						}}
 						// When dealing with modals you may also want to override renderLeftComponent...
 					/>
@@ -76,11 +93,25 @@ AppNavigation.propTypes = {
 }
 
 const styles = StyleSheet.create({
+    header: {
+        backgroundColor: '#000',
+    },
     outerContainer: {
         flex: 1
     },
     container: {
         flex: 1
+    },
+    logo: {
+        marginLeft: 50,
+        height: Platform.OS === 'ios' ? 64 : 57,
+        width: 200
+    },
+    title: {
+        color: '#fff',
+        marginTop: STATUSBAR_HEIGHT / 2,
+        fontSize: 16,
+        textAlign: 'center',
     }
 });
 

@@ -1,4 +1,4 @@
-import { FETCH_AMANCA_RESULTS } from './../constants'
+import { FETCH_AMANCA } from './../constants'
 
 const initialState = {
     isLoading: false,
@@ -8,7 +8,7 @@ const initialState = {
 
 export default function aManca(state = initialState, action) {
     switch (action.type) {
-        case FETCH_AMANCA_RESULTS:
+        case FETCH_AMANCA:
             return Object.assign({}, state, {
                 isLoading: false,
                 items: state.items.concat(action.data)

@@ -18,6 +18,7 @@ const METADATA_UPDATED = 'METADATA_UPDATED';
 const BUFFERING = 'BUFFERING';
 const START_PREPARING = 'START_PREPARING'; // Android only
 const BUFFERING_START = 'BUFFERING_START'; // Android only
+const iconSize = 70;
 
 export default class Player extends Component {
     constructor(props) {
@@ -44,6 +45,7 @@ export default class Player extends Component {
         AudioPlayer.getStatus((error, status) => {
             (error) ? console.log(error) : this.setState(status)
         });
+
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -72,12 +74,12 @@ export default class Player extends Component {
         let icon = null;
         switch (this.state.status) {
             case PLAYING:
-                icon = <Icon name="pause-circle" size={30} color="#FFF" />;
+                icon = <Icon name="pause-circle" style={styles.icon} size={iconSize} />;
                 break;
             case PAUSED:
             case STOPPED:
             case ERROR:
-                icon = <Icon name="play-circle" size={30} color="#FFF" />;
+                icon = <Icon name="play-circle" style={styles.icon} size={iconSize} />;
                 break;
             case BUFFERING:
             case BUFFERING_START:
@@ -93,9 +95,15 @@ export default class Player extends Component {
         return (
             <TouchableOpacity style={styles.container} onPress={this._onPress}>
                 {icon}
-                <Text style={styles.songName}>
-                    {this.state.song}
-                </Text>
+                <View style={styles.textContainer}>
+                    <Text style={styles.textLive}>
+                        {this.state.status === PLAYING
+                            ? "En ce moment:"
+                            : "Mettez de la rébellion dans vos oreilles !"
+                        }
+                    </Text>
+                    <Text style={styles.songName}>{this.state.song}</Text>
+                </View>
             </TouchableOpacity>
         );
     }
@@ -108,16 +116,26 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         alignItems: 'center',
-        backgroundColor: '#000',
+        backgroundColor: '#8C0004',
         flexDirection: 'row',
-        height: 50,
+        height: 80,
         paddingLeft: 10,
         paddingRight: 10
+    },
+    icon: {
+        color: '#000'
+    },
+    textContainer: {
+        flexDirection: 'column',
+        margin: 10,
+    },
+    textLive: {
+        color: '#FFF',
+        marginBottom: 5
     },
     songName: {
         fontSize: 20,
         textAlign: 'center',
-        margin: 10,
         color: '#FFF'
     }
 });

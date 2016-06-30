@@ -3,28 +3,36 @@ import {
     StyleSheet,
     Text,
     View,
-    NavigationExperimental
+    NavigationExperimental,
+    Platform
 } from 'react-native';
 import { bindActionCreators } from 'redux'
 import { Provider, connect } from 'react-redux'
 import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view';
 
 import Player from './Player';
-import AmancaList from './AmancaList';
-import { fetchAmanca} from './../redux/actions';
+import List from './List';
+import { fetchAmanca, fetchLastShows } from './../redux/actions';
 
+/*<Text tabLabel='Les émissions'>Les émissions</Text>*/
 export default class MainView extends Component {
     render() {
         return <View style={styles.container}>
             <ScrollableTabView
                 style={styles.tabs}
-                renderTabBar={() => <DefaultTabBar />}>
-                <AmancaList
+                renderTabBar={() => <DefaultTabBar
+                    textStyle={styles.tabsText}
+                    underlineColor="#8C0004"
+                    tabStyle={styles.tabStyle}
+                />}>
+                <List
+                    tabLabel='Dernières émissions'
+                    fetchItems={this.props.fetchLastShows}
+                />
+                <List
                     tabLabel='A manca'
                     fetchItems={this.props.fetchAmanca}
                 />
-                <Text tabLabel='Dernières émissions'>Dernières émissions</Text>
-                <Text tabLabel='Les émissions'>Les émissions</Text>
             </ScrollableTabView>
             <Player />
         </View>;
@@ -33,13 +41,21 @@ export default class MainView extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 70,
+        marginTop: Platform.OS === 'ios' ? 64 : 56,
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: '#000'
     },
     tabs: {
-        marginBottom: 50
+        marginTop: Platform.OS === 'ios' ? 20 : 0,
+        marginBottom: 80,
+        backgroundColor: '#000'
+    },
+    tabStyle: {
+        height: 60
+    },
+    tabsText: {
+        color: '#FFF'
     }
 });
 
@@ -51,7 +67,8 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
     return bindActionCreators({
-        fetchAmanca
+        fetchAmanca,
+        fetchLastShows
     }, dispatch)
 }
 

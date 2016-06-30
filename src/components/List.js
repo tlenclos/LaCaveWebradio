@@ -11,9 +11,10 @@ import {
 } from 'react-native';
 import GiftedListView from 'react-native-gifted-listview';
 import { connect } from 'react-redux';
+import { decode as decodeHtml } from 'he';
 import { navigatePush } from '../redux/actions'
 
-class AmancaList extends React.Component {
+class List extends React.Component {
     constructor(props) {
         super(props)
         this._renderRowView = this._renderRowView.bind(this);
@@ -25,11 +26,21 @@ class AmancaList extends React.Component {
             return rowData._embedded['https://api.w.org/featuredmedia'][0].media_details.sizes.thumbnail.source_url;
         }
 
+        if (rowData._embedded['wp:featuredmedia'] && rowData._embedded['wp:featuredmedia'][0].media_details) {
+            return rowData._embedded['wp:featuredmedia'][0].media_details.sizes.thumbnail.source_url;
+        }
+
         return null;
+    }
+
+    _getExcerpt(rowData) {
+        const excerpt = decodeHtml(rowData.excerpt.rendered.replace(/<(?:.|\n)*?>/gm, '')).trim();
+        return excerpt.length > 0 ? excerpt : null;
     }
 
     _renderRowView(rowData) {
         const imageUrl = this._getThumbnailForRow(rowData);
+        const excerpt = this._getExcerpt(rowData);
         const onClickData = {
             title: rowData.title.rendered,
             uri: rowData.link
@@ -45,7 +56,9 @@ class AmancaList extends React.Component {
                         style={styles.image}
                     />}
                     <View style={{flex: 1}}>
-                        <Text>{rowData.title.rendered}</Text>
+                        <Text style={styles.title}>{rowData.title.rendered}</Text>
+                        {excerpt && <Text style={styles.excerpt}>{excerpt}</Text>}
+                        <Text style={styles.date}>{new Date(rowData.date).toLocaleDateString()}</Text>
                     </View>
                 </View>
             </TouchableHighlight>
@@ -95,14 +108,24 @@ const styles = StyleSheet.create({
         borderBottomColor: '#cccccc',
         padding: 5
     },
+    title: {
+        fontWeight: 'bold'
+    },
     image: {
         height: 100,
         width: 100,
         marginRight: 10
+    },
+    excerpt: {
+        marginTop: 10
+    },
+    date: {
+        marginTop: 10,
+        color: '#8C0004'
     }
 });
 
-AmancaList.propTypes = {
+List.propTypes = {
     fetchItems: React.PropTypes.func.isRequired
 };
 
@@ -122,4 +145,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(AmancaList)
+)(List)
