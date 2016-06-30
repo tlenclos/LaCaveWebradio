@@ -6,6 +6,6 @@ const logger = createLogger();
 
 // define store middlewares as an array
 export default [
-    promiseMiddleware,
     thunkMiddleware,
+    promiseMiddleware,
 ];

@@ -6,11 +6,12 @@ import {
     ListView,
     TouchableOpacity,
     ActivityIndicator,
-    Image
+    Image,
+    TouchableHighlight
 } from 'react-native';
 import GiftedListView from 'react-native-gifted-listview';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { navigatePush } from '../redux/actions'
 
 class AmancaList extends React.Component {
     constructor(props) {
@@ -29,17 +30,25 @@ class AmancaList extends React.Component {
 
     _renderRowView(rowData) {
         const imageUrl = this._getThumbnailForRow(rowData);
+        const onClickData = {
+            title: rowData.title.rendered,
+            uri: rowData.link
+        };
 
         return (
-            <View style={styles.row}>
-                {imageUrl && <Image
-                    source={{uri: imageUrl}}
-                    style={styles.image}
-                />}
-                <View style={{flex: 1}}>
-                    <Text>{rowData.title.rendered}</Text>
+            <TouchableHighlight
+                onPress={() => this.props.onRowPress(onClickData)}
+            >
+                <View style={styles.row}>
+                    {imageUrl && <Image
+                        source={{uri: imageUrl}}
+                        style={styles.image}
+                    />}
+                    <View style={{flex: 1}}>
+                        <Text>{rowData.title.rendered}</Text>
+                    </View>
                 </View>
-            </View>
+            </TouchableHighlight>
         )
     }
 
@@ -97,4 +106,20 @@ AmancaList.propTypes = {
     fetchItems: React.PropTypes.func.isRequired
 };
 
-export default AmancaList;
+const mapStateToProps = (state) => {
+    return {
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onRowPress: (props) => {
+            dispatch(navigatePush({ key: 'Post', title: props.title, props}))
+        }
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AmancaList)
