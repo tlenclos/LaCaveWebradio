@@ -4,7 +4,9 @@ import {
     NavigationExperimental,
     Text,
     Platform,
-    Image
+    Image,
+    BackAndroid,
+    TouchableOpacity
 } from 'react-native';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -12,15 +14,30 @@ const {
     Transitioner: NavigationTransitioner,
     Card: NavigationCard,
     Header: NavigationHeader,
-} = NavigationExperimental
+} = NavigationExperimental;
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { navigatePush, navigatePop } from './../redux/actions';
 import MainView from './MainView';
 import Post from './Post';
 
-const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 0;
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 35;
 
 export default class AppNavigation extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+    componentDidMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            if (this.props.navigationState.index > 0) {
+                this.props.back();
+                return true;
+            }
+
+            return false;
+        });
+    }
+
     _renderScene({scene}) {
         const { route } = scene
         const props = route.props ? route.props : {};
@@ -47,6 +64,17 @@ export default class AppNavigation extends Component {
 					<NavigationHeader
 						{...props}
 						style={styles.header}
+                        renderLeftComponent={props => {
+                            if (props.scene.index === 0) {
+                                return null;
+                            }
+
+                            return (
+                                <TouchableOpacity style={styles.leftButton} onPress={() => props.onNavigate({type: 'BackAction'})}>
+                                    <Icon name="angle-left" style={styles.leftIcon} size={25} />
+                                </TouchableOpacity>
+                            );
+                        }}
 						renderTitleComponent={props => {
 						    const maxLength = 25;
 							const title = props.scene.route.title
@@ -102,6 +130,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
+    leftButton: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    leftIcon: {
+        height: 24,
+        width: 24,
+        margin: Platform.OS === 'ios' ? 10 : 16,
+        resizeMode: 'contain',
+        color: '#FFF'
+    },
     logo: {
         marginLeft: 50,
         height: Platform.OS === 'ios' ? 64 : 57,
@@ -135,6 +176,9 @@ const dispatchToProps = (dispatch) => ({
             // but could potentially be used by custom components.
             dispatch(navigatePush(action))
         }
+    },
+    back: (props) => {
+        dispatch(navigatePop())
     }
 })
 

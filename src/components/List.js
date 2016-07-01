@@ -86,6 +86,9 @@ class List extends React.Component {
                     onFetch={this._onFetch}
                     firstLoader={true}
                     enableEmptySections={true}
+                    customStyles={{
+                        paginationView: {backgroundColor: 'black'}
+                    }}
                 />
             </View>
         )
