@@ -89,6 +89,17 @@ class List extends React.Component {
                     customStyles={{
                         paginationView: {backgroundColor: 'black'}
                     }}
+                    paginationWaitingView={(paginateCallback) => {
+                        return <TouchableHighlight
+                            underlayColor='#c8c7cc'
+                            onPress={paginateCallback}
+                            style={styles.loadMoreView}
+                          >
+                            <Text style={styles.loadMoreText}>
+                              Plus d'articles...
+                            </Text>
+                        </TouchableHighlight>;
+                    }}
                 />
             </View>
         )
@@ -125,6 +136,15 @@ const styles = StyleSheet.create({
     date: {
         marginTop: 10,
         color: '#8C0004'
+    },
+    loadMoreView: {
+        height: 44,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loadMoreText: {
+        fontSize: 18,
+        color: '#FFF'
     }
 });
 

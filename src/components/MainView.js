@@ -4,7 +4,8 @@ import {
     Text,
     View,
     NavigationExperimental,
-    Platform
+    Platform,
+    StatusBar
 } from 'react-native';
 import { bindActionCreators } from 'redux'
 import { Provider, connect } from 'react-redux'
@@ -18,6 +19,9 @@ import { fetchAmanca, fetchLastShows } from './../redux/actions';
 export default class MainView extends Component {
     render() {
         return <View style={styles.container}>
+            <StatusBar
+                barStyle={'light-content'}
+            />
             <ScrollableTabView
                 style={styles.tabs}
                 renderTabBar={() => <DefaultTabBar
