@@ -13,9 +13,11 @@ import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view
 
 import Player from './Player';
 import List from './List';
-import { fetchAmanca, fetchLastShows } from './../redux/actions';
+import ListShows from './ListShows';
+import { fetchAmanca, fetchLastShows, fetchShows, fetchPostsForCategory, fetchNews } from './../redux/actions';
 
-/*<Text tabLabel='Les émissions'>Les émissions</Text>*/
+const HEADER_HEIGHT = Platform.OS === 'ios' ? 64 : 56;
+
 export default class MainView extends Component {
     render() {
         return <View style={styles.container}>
@@ -33,9 +35,18 @@ export default class MainView extends Component {
                     tabLabel='Dernières émissions'
                     fetchItems={this.props.fetchLastShows}
                 />
+                <ListShows
+                    tabLabel='Les émissions'
+                    fetchItems={this.props.fetchShows}
+                    fetchPostsForCategory={this.props.fetchPostsForCategory}
+                />
                 <List
-                    tabLabel='A manca'
+                    tabLabel='A Manca'
                     fetchItems={this.props.fetchAmanca}
+                />
+                <List
+                    tabLabel='News'
+                    fetchItems={(page) => { return this.props.fetchPostsForCategory(page, 12) }}
                 />
             </ScrollableTabView>
             <Player />
@@ -45,7 +56,7 @@ export default class MainView extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: Platform.OS === 'ios' ? 64 : 56,
+        marginTop: HEADER_HEIGHT,
         flex: 1,
         justifyContent: 'center',
         backgroundColor: '#000'
@@ -72,7 +83,10 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
     return bindActionCreators({
         fetchAmanca,
-        fetchLastShows
+        fetchLastShows,
+        fetchShows,
+        fetchPostsForCategory,
+        fetchNews
     }, dispatch)
 }
 

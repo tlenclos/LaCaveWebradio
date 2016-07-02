@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     Image,
-    TouchableHighlight
+    TouchableHighlight,
+    Platform
 } from 'react-native';
 import GiftedListView from 'react-native-gifted-listview';
 import { connect } from 'react-redux';
@@ -58,7 +59,7 @@ class List extends React.Component {
                     <View style={{flex: 1}}>
                         <Text style={styles.title}>{rowData.title.rendered}</Text>
                         {excerpt && <Text style={styles.excerpt}>{excerpt}</Text>}
-                        <Text style={styles.date}>{new Date(rowData.date).toLocaleDateString()}</Text>
+                        <Text style={styles.date}>{new Date(rowData.date).toLocaleDateString('fr-FR')}</Text>
                     </View>
                 </View>
             </TouchableHighlight>
@@ -79,10 +80,11 @@ class List extends React.Component {
     }
 
     render() {
+        const { containerStyle } = this.props;
         return (
-            <View style={styles.container}>
+            <View style={[ styles.container, containerStyle ]}>
                 <GiftedListView
-                    rowView={this._renderRowView}
+                    rowView={this.props.renderRow ? this.props.renderRow : this._renderRowView}
                     onFetch={this._onFetch}
                     firstLoader={true}
                     enableEmptySections={true}
@@ -100,6 +102,7 @@ class List extends React.Component {
                             </Text>
                         </TouchableHighlight>;
                     }}
+                    pagination={this.props.pagination != undefined ? this.props.pagination : true}
                 />
             </View>
         )
@@ -108,7 +111,7 @@ class List extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
     },
     items: {
         flex: 1,
@@ -149,7 +152,9 @@ const styles = StyleSheet.create({
 });
 
 List.propTypes = {
-    fetchItems: React.PropTypes.func.isRequired
+    fetchItems: React.PropTypes.func.isRequired,
+    onRowPress: React.PropTypes.func.isRequired,
+    renderRow: React.PropTypes.func
 };
 
 const mapStateToProps = (state) => {

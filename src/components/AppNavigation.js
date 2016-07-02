@@ -19,8 +19,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { navigatePush, navigatePop } from './../redux/actions';
 import MainView from './MainView';
 import Post from './Post';
+import List from './List';
 
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : 35;
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 24 : 35;
 
 export default class AppNavigation extends Component {
     constructor(props) {
@@ -47,6 +48,10 @@ export default class AppNavigation extends Component {
                 return <MainView />
             case 'Post':
                 return <Post {...props} />
+            case 'List':
+                return <List containerStyle={{
+                    marginTop: Platform.OS === 'ios' ? 64 : 56 // TODO import style
+                }} {...props} />
         }
     }
 

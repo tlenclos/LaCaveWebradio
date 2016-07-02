@@ -1,5 +1,5 @@
 import { amancaApiUrl, lacaveApiUrl } from '../config';
-import { FETCH_AMANCA, FETCH_LACAVE_LAST_SHOWS } from './constants'
+import { FETCH_AMANCA, FETCH_LACAVE_LAST_SHOWS, FETCH_LACAVE_SHOWS } from './constants'
 
 // Navigations
 export const NAVIGATE = 'NAVIGATE'
@@ -74,6 +74,42 @@ export function fetchLastShows(page) {
             })
             .then((data) => {
                 dispatch({type: FETCH_LACAVE_LAST_SHOWS, data})
+                return data;
+            })
+            .catch((err) => {
+                console.log('handle errors', err);
+            })
+    };
+};
+
+export function fetchShows() {
+    return function (dispatch) {
+        return fetch(lacaveApiUrl + '/categories?parent=3')
+            .then((resp) => resp.json())
+            .then((data) => {
+                if (data.error) throw data.error.message || 'Unable to search'
+                return data
+            })
+            .then((data) => {
+                dispatch({type: FETCH_LACAVE_SHOWS, data})
+                return data;
+            })
+            .catch((err) => {
+                console.log('handle errors', err);
+            })
+    };
+};
+
+export function fetchPostsForCategory(page, category) {
+    return function (dispatch) {
+        return fetch(lacaveApiUrl + '/posts?categories='+category+'&_embed&page='+page)
+            .then((resp) => resp.json())
+            .then((data) => {
+                if (data.error) throw data.error.message || 'Unable to search'
+                return data
+            })
+            .then((data) => {
+                dispatch({type: FETCH_LACAVE_SHOWS, data})
                 return data;
             })
             .catch((err) => {
