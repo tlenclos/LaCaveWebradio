@@ -30,7 +30,8 @@ export default class MainView extends Component {
                     textStyle={styles.tabsText}
                     underlineColor="#8C0004"
                     tabStyle={styles.tabStyle}
-                />}>
+                />}
+            >
                 <List
                     tabLabel='Dernières émissions'
                     fetchItems={this.props.fetchLastShows}

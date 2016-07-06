@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {
     StyleSheet,
     NavigationExperimental,
+    View,
     Text,
     Platform,
     Image,
@@ -91,7 +92,9 @@ export default class AppNavigation extends Component {
                             if (navigationState.index > 0) {
 							    return <Text style={styles.title}>{modifiedTitle}</Text>
                             } else {
-                                return <Image source={require('./../img/logo2.png')} style={styles.logo} />
+                                return <View style={styles.logoWrapper}>
+                                    <Image source={require('./../img/logo2.png')} style={styles.logo} />
+                                </View>
                             }
 						}}
 						// When dealing with modals you may also want to override renderLeftComponent...
@@ -148,10 +151,14 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         color: '#FFF'
     },
+    logoWrapper: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     logo: {
-        marginLeft: 50,
         height: Platform.OS === 'ios' ? 64 : 57,
-        width: 200
+        width: 180
     },
     title: {
         color: '#fff',
