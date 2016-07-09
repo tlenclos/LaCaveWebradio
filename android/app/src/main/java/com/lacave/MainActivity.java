@@ -1,10 +1,15 @@
 package com.lacave;
 
+import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
+import com.smixx.fabric.FabricPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import cl.json.react.AACStreamingPackage;
+import io.fabric.sdk.android.Fabric;
+import com.crashlytics.android.Crashlytics;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,9 +41,16 @@ public class MainActivity extends ReactActivity {
     @Override
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
+            new FabricPackage(),
             new MainReactPackage(),
             new VectorIconsPackage(),
             new AACStreamingPackage(MainActivity.class)
         );
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
     }
 }

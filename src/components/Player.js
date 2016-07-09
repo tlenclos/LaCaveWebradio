@@ -20,6 +20,9 @@ const START_PREPARING = 'START_PREPARING'; // Android only
 const BUFFERING_START = 'BUFFERING_START'; // Android only
 const iconSize = 70;
 
+var Fabric = require('react-native-fabric');
+var { Crashlytics } = Fabric;
+
 export default class Player extends Component {
     constructor(props) {
         super(props);

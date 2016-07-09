@@ -134,7 +134,12 @@ android {
     }
 }
 
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 dependencies {
+    compile project(':react-native-fabric')
     compile project(':react-native-android-audio-streaming-aac')
     compile project(':react-native-vector-icons')
     compile fileTree(dir: "libs", include: ["*.jar"])
