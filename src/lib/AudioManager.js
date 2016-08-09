@@ -4,8 +4,10 @@ let AudioManager = null;
 if (Platform.OS === 'ios') {
   AudioManager = require('NativeModules').AudioManager;
 } else {
+  /*
   AudioManager = require('react-native-android-audio-streaming-aac');
   AudioManager.setURLStreaming('http://lacavewebradio.chickenkiller.com:8000/stream.mp3');
+  */
 }
 
 export class AudioPlayer {
