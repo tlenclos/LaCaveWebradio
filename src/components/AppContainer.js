@@ -1,9 +1,9 @@
 import {Provider} from 'react-redux';
 import store from './../redux/store';
 import AppNavigation from './AppNavigation';
-import React from 'react';
+import React, { Component } from 'react';
 
-export default AppContainer = React.createClass({
+export default class AppContainer extends Component {
     render() {
         return (
             <Provider store={store}>
@@ -11,4 +11,4 @@ export default AppContainer = React.createClass({
             </Provider>
         );
     }
-})
+}

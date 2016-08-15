@@ -93,7 +93,7 @@ export default class AppNavigation extends Component {
 							    return <Text style={styles.title}>{modifiedTitle}</Text>
                             } else {
                                 return <View style={styles.logoWrapper}>
-                                    <Image source={require('./../img/logo2.png')} style={styles.logo} />
+                                    <Image source={require('./../img/logo.png')} style={styles.logo} />
                                 </View>
                             }
 						}}

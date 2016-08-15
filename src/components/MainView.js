@@ -14,7 +14,7 @@ import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view
 import Player from './Player';
 import List from './List';
 import ListShows from './ListShows';
-import { fetchAmanca, fetchLastShows, fetchShows, fetchPostsForCategory, fetchNews } from './../redux/actions';
+import { fetchAmanca, fetchLastShows, fetchShows, fetchPostsForCategory } from './../redux/actions';
 
 const HEADER_HEIGHT = Platform.OS === 'ios' ? 64 : 56;
 
@@ -86,8 +86,7 @@ const dispatchToProps = (dispatch) => {
         fetchAmanca,
         fetchLastShows,
         fetchShows,
-        fetchPostsForCategory,
-        fetchNews
+        fetchPostsForCategory
     }, dispatch)
 }
 

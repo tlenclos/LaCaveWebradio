@@ -1,6 +1,5 @@
 import {combineReducers} from 'redux';
 import * as NavigationStateUtils from 'NavigationStateUtils'
-import aManca from './reducers/amancaReducer';
 
 import { NAV_PUSH, NAV_POP, NAV_JUMP_TO_KEY, NAV_JUMP_TO_INDEX, NAV_RESET } from './actions'
 const initialNavState = {
@@ -41,8 +40,7 @@ function navigationState(state = initialNavState, action) {
 }
 
 const rootReducer = combineReducers({
-    navigationState,
-    aManca,
+    navigationState
 });
 
 export default rootReducer;
